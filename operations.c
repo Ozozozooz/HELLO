@@ -60,6 +60,7 @@ void    pa(t_stack **b, t_stack **a)
     temp_b->prev = NULL;
     if(temp_a)              //Becasue stack a could be empty
         temp_a->prev = temp_b;
+    write(1, "pa\n", 3);
 }
 
 void    pb(t_stack **a, t_stack **b)
