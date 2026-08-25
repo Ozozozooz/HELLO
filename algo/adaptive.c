@@ -2,22 +2,23 @@
 
 double	ft_disorder(t_stack *stack_a, int size);
 
-void	ft_adaptive(t_stack **stack_a, t_stack **stack_b, int size)
+void	ft_adaptive(t_stack **stack_a, t_stack **stack_b, int size,
+		int *counts)
 {
 	double	dis;
 
 	dis = ft_disorder(*stack_a, size);
 	if (dis < 0.2)
 	{
-		ft_simple_algo(stack_a, stack_b);
+		ft_simple_algo(stack_a, stack_b, counts);
 	}
 	if (dis >= 0.2 && dis < 0.5)
 	{
-		medium_algo(stack_a, stack_b, size);
+		medium_algo(stack_a, stack_b, size, counts);
 	}
 	if (dis >= 0.5)
 	{
-		quick_sort_a(stack_a, stack_b, size);
+		quick_sort_a(stack_a, stack_b, size, counts);
 	}
 }
 

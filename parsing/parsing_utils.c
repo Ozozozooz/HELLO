@@ -26,13 +26,11 @@ int	check_spaces(char *str)
 
 long	ft_atoi_strict(char *str, t_stack **stack, char **arr)
 {
-	int		i;
-	int		sign;
-	long	result;
+	int	i;
+	int	sign;
 
 	i = 0;
 	sign = 1;
-	result = 0;
 	if (str[i] == '-' || str[i] == '+')
 	{
 		if (str[i] == '-')
@@ -41,6 +39,16 @@ long	ft_atoi_strict(char *str, t_stack **stack, char **arr)
 	}
 	if (str[i] == '\0')
 		ft_error(stack, arr);
+	return (atoi_loop(str + i, stack, arr, sign));
+}
+
+long	atoi_loop(char *str,t_stack **stack,char **arr,int sign)
+{
+	int		i;
+	long	result;
+
+	i = 0;
+	result = 0;
 	while (str[i] != '\0')
 	{
 		if (str[i] < '0' || str[i] > '9')
@@ -53,7 +61,6 @@ long	ft_atoi_strict(char *str, t_stack **stack, char **arr)
 	}
 	return (result * sign);
 }
-
 
 void	check_duplicates(t_stack **stack)
 {

@@ -1,7 +1,7 @@
 
 #include "pushswap.h"
 
-void	medium_algo(t_stack **a, t_stack **b, int argc)
+void	medium_algo(t_stack **a, t_stack **b, int argc, int *counts)
 {
 	t_info	c_info;
 	int		size;
@@ -13,10 +13,11 @@ void	medium_algo(t_stack **a, t_stack **b, int argc)
 	c_info.up = c_info.low - c_info.k + 1;
 	c_info.count = c_info.k;
 	while (c_info.up >= 0 && c_info.count != 0)
-		process_chunk(a, b, &c_info, size);
+		process_chunk(a, b, &c_info, size, counts);
 }
 
-void	process_chunk(t_stack **a, t_stack **b, t_info *c_info, int size)
+void	process_chunk(t_stack **a, t_stack **b, t_info *c_info, int size,
+		int *counts)
 {
 	int	pos;
 
@@ -26,19 +27,19 @@ void	process_chunk(t_stack **a, t_stack **b, t_info *c_info, int size)
 		if (pos >= 0)
 		{
 			while (pos--)
-				ra(a);
+				ra(a, counts);
 		}
 		else
 		{
 			while (pos++)
-				rra(a);
+				rra(a, counts);
 		}
-		pb(a, b);
+		pb(a, b, counts);
 		size--;
 		c_info->count--;
 		if (c_info->count == 0)
 		{
-			next_chunk(c_info, b, a);
+			next_chunk(c_info, b, a, counts);
 			size = ft_stack_size(*a);
 		}
 	}
@@ -64,13 +65,13 @@ int	find_chunk_pos(t_stack *a, t_info *c_info, int size)
 	return (pos - size);
 }
 
-void	next_chunk(t_info *c_info, t_stack **b, t_stack **a)
+void	next_chunk(t_info *c_info, t_stack **b, t_stack **a, int *counts)
 {
 	c_info->up -= c_info->k;
 	c_info->low -= c_info->k;
 	c_info->count = c_info->k;
 
-	intermittent_bsort(b, a, c_info);
+	intermittent_bsort(b, a, c_info, counts);
 	if (c_info->up < 0)
 	{
 		c_info->up = 0;
@@ -79,7 +80,8 @@ void	next_chunk(t_info *c_info, t_stack **b, t_stack **a)
 	}
 }
 
-void	intermittent_bsort(t_stack **b, t_stack **a, t_info *c_info)
+void	intermittent_bsort(t_stack **b, t_stack **a, t_info *c_info,
+		int *counts)
 {
 	t_stack	*temp;
 	t_stack	*big;
@@ -102,22 +104,22 @@ void	intermittent_bsort(t_stack **b, t_stack **a, t_info *c_info)
 			temp = temp->next;
 			i++;
 		}
-		sort_to_a(big_pos, i + 1, b, a);
+		sort_to_a(big_pos, i + 1, b, a, counts);
 	}
 }
 
-void	sort_to_a(int pos, int size, t_stack **b, t_stack **a)
+void	sort_to_a(int pos, int size, t_stack **b, t_stack **a, int *counts)
 {
 	if (pos >= size / 2)
 	{
 		pos = size - pos;
 		while (pos--)
-			rrb(b);
+			rrb(b, counts);
 	}
 	else
 	{
 		while (pos--)
-			rb(b);
+			rb(b, counts);
 	}
-	pa(b, a);
+	pa(b, a, counts);
 }

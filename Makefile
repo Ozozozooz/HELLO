@@ -16,7 +16,8 @@ SRC = trial/main.c \
 	  algo/adaptive.c\
 	  algo/selector.c\
 	  algo/medium.c\
-	  algo/root.c
+	  algo/root.c\
+	  algo/complex_help.c
 OBJ = $(SRC:.c=.o)
 
 all: $(NAME)

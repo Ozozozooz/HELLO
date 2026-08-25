@@ -20,26 +20,29 @@ void    ft_swap(t_stack **ab)
 
 }
 
-void    sa(t_stack **a)
+void    sa(t_stack **a, int *counts)
 {
     ft_swap(a);
+    counts[SA]++;
     write(1, "sa\n", 3);
 }
 
-void    sb(t_stack **b)
+void    sb(t_stack **b, int *counts)
 {
     ft_swap(b);
+    counts[SB]++;
     write(1, "sb\n", 3);
 }
 
-void    ss(t_stack **a, t_stack **b)
+void    ss(t_stack **a, t_stack **b, int *counts)
 {
     ft_swap(a);
     ft_swap(b);
+    counts[SS]++;
     write(1, "ss\n", 3);
 }
 
-void    pa(t_stack **b, t_stack **a)
+void    pa(t_stack **b, t_stack **a, int *counts)
 {
     t_stack *temp_b;
     t_stack *temp_a;
@@ -60,10 +63,11 @@ void    pa(t_stack **b, t_stack **a)
     temp_b->prev = NULL;
     if(temp_a)              //Becasue stack a could be empty
         temp_a->prev = temp_b;
+    counts[PA]++;
     write(1, "pa\n", 3);
 }
 
-void    pb(t_stack **a, t_stack **b)
+void    pb(t_stack **a, t_stack **b, int *counts)
 {
     t_stack *temp_a;
     t_stack *temp_b;
@@ -84,6 +88,7 @@ void    pb(t_stack **a, t_stack **b)
     temp_a->prev = NULL;
     if(temp_b)              //Becasue stack a could be empty
         temp_b->prev = temp_a;
+    counts[PB]++;
     write(1, "pb\n", 3);
 }
 
@@ -100,7 +105,7 @@ void    ft_rotate(t_stack **ab)
 
     *ab = temp->next;
     (*ab)->prev = NULL;
-    
+
     while (tail->next)
         tail = tail->next;
 
@@ -109,22 +114,25 @@ void    ft_rotate(t_stack **ab)
     temp->next = NULL;
 }
 
-void    ra(t_stack **a)
+void    ra(t_stack **a, int *counts)
 {
     ft_rotate(a);
+    counts[RA]++;
     write(1, "ra\n", 3);
 }
 
-void    rb(t_stack **b)
+void    rb(t_stack **b, int *counts)
 {
     ft_rotate(b);
+    counts[RB]++;
     write(1, "rb\n", 3);
 }
 
-void    rr(t_stack **a, t_stack **b)
+void    rr(t_stack **a, t_stack **b, int *counts)
 {
     ft_rotate(a);
     ft_rotate(b);
+    counts[RR]++;
     write(1, "rr\n", 3);
 }
 
@@ -148,21 +156,24 @@ void    ft_reverse_rotate(t_stack **a)
     *a = last;
 }
 
-void    rra(t_stack **a)
+void    rra(t_stack **a, int *counts)
 {
     ft_reverse_rotate(a);
+    counts[RRA]++;
     write(1, "rra\n", 4);
 }
 
-void    rrb(t_stack **b)
+void    rrb(t_stack **b, int *counts)
 {
     ft_reverse_rotate(b);
+    counts[RRB]++;
     write(1, "rrb\n", 4);
 }
 
-void    rrr(t_stack **a, t_stack **b)
+void    rrr(t_stack **a, t_stack **b, int *counts)
 {
     ft_reverse_rotate(a);
     ft_reverse_rotate(b);
+    counts[RRR]++;
     write(1, "rrr\n", 4);
 }
