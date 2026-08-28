@@ -1,4 +1,4 @@
-#include "pushswap.h"
+#include "push_swap.h"
 
 static void	init_loop(char **split_args, t_stack **stack_a)
 {
@@ -18,10 +18,10 @@ void	init_stack_a(int argc, char **argv, t_stack **stack_a)
 {
 	char	**split_args;
 	int		i;
+	int		bench;
+	char	*algo;
 
-	i = 1;
-	if (argc > 1 && argv[1][0] == '-' && argv[1][1] == '-')
-		i = 2;
+	i = 1 + leading_flags(argc, argv, &bench, &algo);
 	while (i < argc)
 	{
 		if (!argv[i] || argv[i][0] == '\0' || check_spaces(argv[i]))

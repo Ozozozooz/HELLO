@@ -1,4 +1,4 @@
-#include "pushswap.h"
+#include "push_swap.h"
 
 void	quick_sort_a(t_stack **a, t_stack **b, int size, int *counts)
 {

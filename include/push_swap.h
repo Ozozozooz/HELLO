@@ -27,6 +27,13 @@ typedef struct s_info
 	int				k;
 }	t_info;
 
+typedef struct s_a_state
+{
+	t_stack			**a;
+	int				size;
+	t_stack			*tail;
+}	t_a_state;
+
 typedef enum e_op
 {
 	SA,
@@ -87,16 +94,26 @@ int		find_min_val(t_stack *a,int size);
 int		get_pivot(t_stack *a,int size);
 
 void	execute_strategy(int argc, char **argv, t_stack **a, t_stack **b, int size);
+int		leading_flags(int argc, char **argv, int *bench, char **algo);
+void	print_bench(double disorder, int *counts);
 
 
-int	find_chunk_pos(t_stack *a, t_info *c_info, int size);
-void	process_chunk(t_stack **a, t_stack **b, t_info *c_info, int size,
-		int *counts);
-void	next_chunk(t_info *c_info, t_stack **b, t_stack **a, int *counts);
-void	intermittent_bsort(t_stack **b, t_stack **a, t_info *c_info,
-		int *counts);
-void	sort_to_a(int pos, int size, t_stack **b, t_stack **a, int *counts);
-void	medium_algo(t_stack **a, t_stack **b, int argc, int *counts);
+void		medium_algo(t_stack **a, t_stack **b, int n, int *counts);
+void		chunk_sort(t_stack **a, t_stack **b, t_info *info, int *counts);
+void		process_chunk(t_a_state *st, t_stack **b, t_info *info,
+				int *counts);
+void		move_one(t_a_state *st, t_stack **b, t_info *info, int *counts);
+int			compute_dist(t_a_state *st, t_info *info, int *res_pos,
+				int *res_index);
+t_stack		*scan_front(t_stack *head, t_info *info, int *pos_f);
+t_stack		*scan_back(t_stack *tail, t_info *info, int *pos_b);
+int			insertion_depth(t_stack *b, int placed, int index);
+void		rotate_extraction(t_a_state *st, t_stack **b, int forward,
+				int *cost_a, int *depth, int *counts);
+void		merge_forward(t_a_state *st, t_stack **b, int *cost_a,
+				int *depth, int *counts);
+int			chunk_count(int n);
+t_stack		*find_tail(t_stack *a);
 
 
 void	heap_utils(t_stack **a, int size);

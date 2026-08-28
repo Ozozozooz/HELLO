@@ -1,0 +1,53 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   moves3.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: merged <merged@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/08/28 00:00:00 by merged            #+#    #+#             */
+/*   Updated: 2026/08/28 00:00:00 by merged           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "push_swap.h"
+
+void	ft_rotate(t_stack **ab)
+{
+	t_stack	*temp;
+	t_stack	*tail;
+
+	if (!(*ab) || !(*ab)->next)
+		return ;
+	temp = *ab;
+	tail = *ab;
+	*ab = temp->next;
+	(*ab)->prev = NULL;
+	while (tail->next)
+		tail = tail->next;
+	tail->next = temp;
+	temp->prev = tail;
+	temp->next = NULL;
+}
+
+void	ra(t_stack **a, int *counts)
+{
+	ft_rotate(a);
+	counts[RA]++;
+	write(1, "ra\n", 3);
+}
+
+void	rb(t_stack **b, int *counts)
+{
+	ft_rotate(b);
+	counts[RB]++;
+	write(1, "rb\n", 3);
+}
+
+void	rr(t_stack **a, t_stack **b, int *counts)
+{
+	ft_rotate(a);
+	ft_rotate(b);
+	counts[RR]++;
+	write(1, "rr\n", 3);
+}

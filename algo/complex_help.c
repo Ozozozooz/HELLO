@@ -1,4 +1,4 @@
-#include "pushswap.h"
+#include "push_swap.h"
 
 void	loop_a(t_stack **a, t_stack **b, int pivot, int size,
 		int *smaller, int *bigger, int *counts)

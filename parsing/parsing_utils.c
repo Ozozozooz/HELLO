@@ -1,4 +1,4 @@
-#include "pushswap.h"
+#include "push_swap.h"
 
 
 void	ft_error(t_stack **stack, char **arr)
