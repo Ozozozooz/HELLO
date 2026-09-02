@@ -1,4 +1,16 @@
-#include "pushswap.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   root.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: merged <merged@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/08/28 00:00:00 by merged            #+#    #+#             */
+/*   Updated: 2026/08/28 00:00:00 by merged           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "push_swap.h"
 
 /*float	compute_disorder(t_stack *a)
 {
@@ -34,14 +46,14 @@ int	root(int num)
 	int	base;
 	int	k;
 
-    base = ft_isqrt(num);
-    if (num <= 20)
-        k = base;
-    else
-        k = (base * 265) / 100;
-    if (k < 1)
-        k = 1;
-    return (k);
+	base = ft_isqrt(num);
+	if (num <= 20)
+		k = base;
+	else
+		k = (base * 265) / 100;
+	if (k < 1)
+		k = 1;
+	return (k);
 }
 
 int	ft_isqrt(int n)

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   moves2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: merged <merged@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,19 +12,44 @@
 
 #include "push_swap.h"
 
-int	main(int argc, char **argv)
+void	pa(t_stack **b, t_stack **a, int *counts)
 {
-	t_stack		*stack_a;
-	t_stack		*stack_b;
-	t_stacks	st;
-	int			size;
+	t_stack	*temp_b;
+	t_stack	*temp_a;
 
-	stack_b = NULL;
-	stack_a = NULL;
-	init_stack_a(argc, argv, &stack_a);
-	size = ft_stack_size(stack_a);
-	st.a = &stack_a;
-	st.b = &stack_b;
-	execute_strategy(argc, argv, &st, size);
-	return (0);
+	if (!*b)
+		return ;
+	temp_b = *b;
+	temp_a = *a;
+	*b = temp_b->next;
+	if (*b)
+		(*b)->prev = NULL;
+	*a = temp_b;
+	temp_b->next = temp_a;
+	temp_b->prev = NULL;
+	if (temp_a)
+		temp_a->prev = temp_b;
+	counts[PA]++;
+	write(1, "pa\n", 3);
+}
+
+void	pb(t_stack **a, t_stack **b, int *counts)
+{
+	t_stack	*temp_a;
+	t_stack	*temp_b;
+
+	if (!*a)
+		return ;
+	temp_b = *b;
+	temp_a = *a;
+	*a = temp_a->next;
+	if (*a)
+		(*a)->prev = NULL;
+	*b = temp_a;
+	temp_a->next = temp_b;
+	temp_a->prev = NULL;
+	if (temp_b)
+		temp_b->prev = temp_a;
+	counts[PB]++;
+	write(1, "pb\n", 3);
 }

@@ -1,52 +1,64 @@
-#include "pushswap.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   complex_help.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: merged <merged@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/08/28 00:00:00 by merged            #+#    #+#             */
+/*   Updated: 2026/08/28 00:00:00 by merged           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void	loop_a(t_stack **a, t_stack **b, int pivot, int size,
-		int *smaller, int *bigger, int *counts)
+#include "push_swap.h"
+
+void	loop_a(t_stacks *st, t_partition *p, int *counts)
 {
 	int	i;
+	int	size;
 
+	size = p->size;
 	while (size--)
 	{
-		if ((*a)->value < pivot)
+		if ((*st->a)->value < p->pivot)
 		{
-			pb(a, b, counts);
-			(*smaller)++;
+			pb(st->a, st->b, counts);
+			(*p->smaller)++;
 		}
 		else
 		{
-			ra(a, counts);
-			(*bigger)++;
+			ra(st->a, counts);
+			(*p->bigger)++;
 		}
 	}
-	i = *bigger;
+	i = *p->bigger;
 	while (i--)
-		rra(a, counts);
+		rra(st->a, counts);
 }
 
-void	loop_b(t_stack **a, t_stack **b, int pivot, int size,
-		int *smaller, int *bigger, int *counts)
+void	loop_b(t_stacks *st, t_partition *p, int *counts)
 {
 	int	i;
 
-	*smaller = 0;
-	*bigger = 0;
-
-	while (size--)
+	*p->smaller = 0;
+	*p->bigger = 0;
+	i = p->size;
+	while (i--)
 	{
-		if ((*b)->value > pivot)
+		if ((*st->b)->value > p->pivot)
 		{
-			pa(b, a, counts);
-			(*bigger)++;
+			pa(st->b, st->a, counts);
+			(*p->bigger)++;
 		}
 		else
 		{
-			rb(b, counts);
-			(*smaller)++;
+			rb(st->b, counts);
+			(*p->smaller)++;
 		}
 	}
-	i = *smaller;
+	i = *p->smaller;
 	while (i--)
-		rrb(b, counts);
+		rrb(st->b, counts);
 }
 
 int	pivot_loop(t_stack *a, int *stackar, int size)

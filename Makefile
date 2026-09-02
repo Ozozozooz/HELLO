@@ -6,7 +6,10 @@ CFLAGS = -Wall -Wextra -Werror -Iinclude -Ilibft
 LIBFT = libft/libft.a
 
 SRC = trial/main.c \
-      operations/operations.c \
+      operations/moves1.c \
+      operations/moves2.c \
+      operations/moves3.c \
+      operations/moves4.c \
       parsing/parsing_utils.c \
       parsing/parsing.c \
       parsing/stack_utils.c \
@@ -15,7 +18,12 @@ SRC = trial/main.c \
 	  algo/heap.c\
 	  algo/adaptive.c\
 	  algo/selector.c\
+	  algo/flags.c\
 	  algo/medium.c\
+	  algo/medium_scan.c\
+	  algo/medium_utils.c\
+	  algo/bench.c\
+	  algo/bench_utils.c\
 	  algo/root.c\
 	  algo/complex_help.c
 OBJ = $(SRC:.c=.o)

@@ -1,8 +1,19 @@
-#include "pushswap.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   complex.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: merged <merged@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/08/28 00:00:00 by merged            #+#    #+#             */
+/*   Updated: 2026/08/28 00:00:00 by merged           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "push_swap.h"
 
 void	quick_sort_a(t_stack **a, t_stack **b, int size, int *counts)
 {
-	int	pivot;
 	int	smaller;
 	int	bigger;
 
@@ -14,17 +25,16 @@ void	quick_sort_a(t_stack **a, t_stack **b, int size, int *counts)
 			sa(a, counts);
 		return ;
 	}
-	pivot = get_pivot(*a, size);
 	smaller = 0;
 	bigger = 0;
-	loop_a(a, b, pivot, size, &smaller, &bigger, counts);
+	loop_a(&(t_stacks){a, b},
+		&(t_partition){get_pivot(*a, size), size, &smaller, &bigger}, counts);
 	quick_sort_a(a, b, bigger, counts);
 	quick_sort_b(a, b, smaller, counts);
 }
 
 void	quick_sort_b(t_stack **a, t_stack **b, int size, int *counts)
 {
-	int	pivot;
 	int	smaller;
 	int	bigger;
 
@@ -43,8 +53,8 @@ void	quick_sort_b(t_stack **a, t_stack **b, int size, int *counts)
 		pa(b, a, counts);
 		return ;
 	}
-	pivot = get_pivot(*b, size);
-	loop_b(a, b, pivot, size, &smaller, &bigger, counts);
+	loop_b(&(t_stacks){a, b},
+		&(t_partition){get_pivot(*b, size), size, &smaller, &bigger}, counts);
 	quick_sort_a(a, b, bigger, counts);
 	quick_sort_b(a, b, smaller, counts);
 }

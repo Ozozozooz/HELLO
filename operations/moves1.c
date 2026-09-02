@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   moves1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: merged <merged@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,19 +12,42 @@
 
 #include "push_swap.h"
 
-int	main(int argc, char **argv)
+void	ft_swap(t_stack **ab)
 {
-	t_stack		*stack_a;
-	t_stack		*stack_b;
-	t_stacks	st;
-	int			size;
+	t_stack	*first;
+	t_stack	*second;
 
-	stack_b = NULL;
-	stack_a = NULL;
-	init_stack_a(argc, argv, &stack_a);
-	size = ft_stack_size(stack_a);
-	st.a = &stack_a;
-	st.b = &stack_b;
-	execute_strategy(argc, argv, &st, size);
-	return (0);
+	if (!*ab || !(*ab)->next)
+		return ;
+	first = *ab;
+	second = (*ab)->next;
+	first->prev = second;
+	first->next = second->next;
+	second->prev = NULL;
+	second->next = first;
+	if (first->next)
+		first->next->prev = first;
+	*ab = second;
+}
+
+void	sa(t_stack **a, int *counts)
+{
+	ft_swap(a);
+	counts[SA]++;
+	write(1, "sa\n", 3);
+}
+
+void	sb(t_stack **b, int *counts)
+{
+	ft_swap(b);
+	counts[SB]++;
+	write(1, "sb\n", 3);
+}
+
+void	ss(t_stack **a, t_stack **b, int *counts)
+{
+	ft_swap(a);
+	ft_swap(b);
+	counts[SS]++;
+	write(1, "ss\n", 3);
 }

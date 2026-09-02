@@ -1,6 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heap.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: merged <merged@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/08/28 00:00:00 by merged            #+#    #+#             */
+/*   Updated: 2026/08/28 00:00:00 by merged           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include "pushswap.h"
-
+#include "push_swap.h"
 
 void	heap_utils(t_stack **a, int size)
 {
@@ -33,14 +43,14 @@ void	sort_heap(t_stack **arr, int size)
 	int		k;
 	t_stack	*tmp;
 
-	i = size / 2 - 1;		// Creating heap**************************
+	i = size / 2 - 1;
 	while (i >= 0)
 	{
 		sift_down(arr, size, i);
 		i--;
 	}
 	k = size - 1;
-	while (k > 0)		//Deleting array*********************************
+	while (k > 0)
 	{
 		tmp = arr[k];
 		arr[k] = arr[0];

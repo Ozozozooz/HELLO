@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   medium_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: merged <merged@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,19 +12,21 @@
 
 #include "push_swap.h"
 
-int	main(int argc, char **argv)
+int	chunk_count(int n)
 {
-	t_stack		*stack_a;
-	t_stack		*stack_b;
-	t_stacks	st;
-	int			size;
+	int	x;
 
-	stack_b = NULL;
-	stack_a = NULL;
-	init_stack_a(argc, argv, &stack_a);
-	size = ft_stack_size(stack_a);
-	st.a = &stack_a;
-	st.b = &stack_b;
-	execute_strategy(argc, argv, &st, size);
-	return (0);
+	x = 0;
+	while ((x + 1) * (x + 1) <= n)
+		x++;
+	return ((x * 116 + 50) / 100);
+}
+
+t_stack	*find_tail(t_stack *a)
+{
+	if (!a)
+		return (NULL);
+	while (a->next)
+		a = a->next;
+	return (a);
 }

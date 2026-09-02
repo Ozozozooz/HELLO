@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   moves4.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: merged <merged@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,19 +12,40 @@
 
 #include "push_swap.h"
 
-int	main(int argc, char **argv)
+void	ft_reverse_rotate(t_stack **a)
 {
-	t_stack		*stack_a;
-	t_stack		*stack_b;
-	t_stacks	st;
-	int			size;
+	t_stack	*last;
 
-	stack_b = NULL;
-	stack_a = NULL;
-	init_stack_a(argc, argv, &stack_a);
-	size = ft_stack_size(stack_a);
-	st.a = &stack_a;
-	st.b = &stack_b;
-	execute_strategy(argc, argv, &st, size);
-	return (0);
+	if (!a || !(*a) || !(*a)->next)
+		return ;
+	last = *a;
+	while (last->next)
+		last = last->next;
+	last->prev->next = NULL;
+	last->next = *a;
+	(*a)->prev = last;
+	last->prev = NULL;
+	*a = last;
+}
+
+void	rra(t_stack **a, int *counts)
+{
+	ft_reverse_rotate(a);
+	counts[RRA]++;
+	write(1, "rra\n", 4);
+}
+
+void	rrb(t_stack **b, int *counts)
+{
+	ft_reverse_rotate(b);
+	counts[RRB]++;
+	write(1, "rrb\n", 4);
+}
+
+void	rrr(t_stack **a, t_stack **b, int *counts)
+{
+	ft_reverse_rotate(a);
+	ft_reverse_rotate(b);
+	counts[RRR]++;
+	write(1, "rrr\n", 4);
 }

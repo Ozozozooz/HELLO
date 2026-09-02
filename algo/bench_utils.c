@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   bench_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: merged <merged@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,19 +12,34 @@
 
 #include "push_swap.h"
 
-int	main(int argc, char **argv)
+char	*path_name(int path)
 {
-	t_stack		*stack_a;
-	t_stack		*stack_b;
-	t_stacks	st;
-	int			size;
+	if (path <= 3)
+		return ("Adaptive");
+	if (path == 4)
+		return ("Simple");
+	if (path == 5)
+		return ("Medium");
+	return ("Complex");
+}
 
-	stack_b = NULL;
-	stack_a = NULL;
-	init_stack_a(argc, argv, &stack_a);
-	size = ft_stack_size(stack_a);
-	st.a = &stack_a;
-	st.b = &stack_b;
-	execute_strategy(argc, argv, &st, size);
-	return (0);
+char	*path_class(int path)
+{
+	if (path == 1 || path == 4)
+		return ("O(n\xc2\xb2)");
+	if (path == 2 || path == 5)
+		return ("O(n\xe2\x88\x9an)");
+	return ("O(n log n)");
+}
+
+int	sum_ops(int *counts)
+{
+	int	total;
+	int	i;
+
+	total = 0;
+	i = 0;
+	while (i < 11)
+		total += counts[i++];
+	return (total);
 }

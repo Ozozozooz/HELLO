@@ -1,5 +1,16 @@
-#include "pushswap.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_utils.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: merged <merged@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/08/28 00:00:00 by merged            #+#    #+#             */
+/*   Updated: 2026/08/28 00:00:00 by merged           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "push_swap.h"
 
 void	ft_error(t_stack **stack, char **arr)
 {
@@ -42,7 +53,7 @@ long	ft_atoi_strict(char *str, t_stack **stack, char **arr)
 	return (atoi_loop(str + i, stack, arr, sign));
 }
 
-long	atoi_loop(char *str,t_stack **stack,char **arr,int sign)
+long	atoi_loop(char *str, t_stack **stack, char **arr, int sign)
 {
 	int		i;
 	long	result;
@@ -54,7 +65,7 @@ long	atoi_loop(char *str,t_stack **stack,char **arr,int sign)
 		if (str[i] < '0' || str[i] > '9')
 			ft_error(stack, arr);
 		result = result * 10 + (str[i] - '0');
-		if ((sign == 1 && result > 2147483647) 
+		if ((sign == 1 && result > 2147483647)
 			|| (sign == -1 && (-result) < -2147483648))
 			ft_error(stack, arr);
 		i++;

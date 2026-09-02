@@ -1,4 +1,16 @@
-#include "pushswap.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   adaptive.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: merged <merged@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/08/28 00:00:00 by merged            #+#    #+#             */
+/*   Updated: 2026/08/28 00:00:00 by merged           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "push_swap.h"
 
 double	ft_disorder(t_stack *stack_a, int size);
 
@@ -10,14 +22,17 @@ void	ft_adaptive(t_stack **stack_a, t_stack **stack_b, int size,
 	dis = ft_disorder(*stack_a, size);
 	if (dis < 0.2)
 	{
+		counts[11] = 1;
 		ft_simple_algo(stack_a, stack_b, counts);
 	}
 	if (dis >= 0.2 && dis < 0.5)
 	{
+		counts[11] = 2;
 		medium_algo(stack_a, stack_b, size, counts);
 	}
 	if (dis >= 0.5)
 	{
+		counts[11] = 3;
 		quick_sort_a(stack_a, stack_b, size, counts);
 	}
 }

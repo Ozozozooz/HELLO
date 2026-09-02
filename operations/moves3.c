@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   moves3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: merged <merged@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,19 +12,42 @@
 
 #include "push_swap.h"
 
-int	main(int argc, char **argv)
+void	ft_rotate(t_stack **ab)
 {
-	t_stack		*stack_a;
-	t_stack		*stack_b;
-	t_stacks	st;
-	int			size;
+	t_stack	*temp;
+	t_stack	*tail;
 
-	stack_b = NULL;
-	stack_a = NULL;
-	init_stack_a(argc, argv, &stack_a);
-	size = ft_stack_size(stack_a);
-	st.a = &stack_a;
-	st.b = &stack_b;
-	execute_strategy(argc, argv, &st, size);
-	return (0);
+	if (!(*ab) || !(*ab)->next)
+		return ;
+	temp = *ab;
+	tail = *ab;
+	*ab = temp->next;
+	(*ab)->prev = NULL;
+	while (tail->next)
+		tail = tail->next;
+	tail->next = temp;
+	temp->prev = tail;
+	temp->next = NULL;
+}
+
+void	ra(t_stack **a, int *counts)
+{
+	ft_rotate(a);
+	counts[RA]++;
+	write(1, "ra\n", 3);
+}
+
+void	rb(t_stack **b, int *counts)
+{
+	ft_rotate(b);
+	counts[RB]++;
+	write(1, "rb\n", 3);
+}
+
+void	rr(t_stack **a, t_stack **b, int *counts)
+{
+	ft_rotate(a);
+	ft_rotate(b);
+	counts[RR]++;
+	write(1, "rr\n", 3);
 }

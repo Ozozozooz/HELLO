@@ -1,125 +1,117 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   medium.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: merged <merged@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/08/28 00:00:00 by merged            #+#    #+#             */
+/*   Updated: 2026/08/28 00:00:00 by merged           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include "pushswap.h"
+#include "push_swap.h"
 
-void	medium_algo(t_stack **a, t_stack **b, int argc, int *counts)
+void	medium_algo(t_stack **a, t_stack **b, int n, int *counts)
 {
-	t_info	c_info;
-	int		size;
+	t_info	info;
 
-	heap_utils(a, argc);
-	size = ft_stack_size(*a);
-	c_info.k = root(size);
-	c_info.low = size - 1;
-	c_info.up = c_info.low - c_info.k + 1;
-	c_info.count = c_info.k;
-	while (c_info.up >= 0 && c_info.count != 0)
-		process_chunk(a, b, &c_info, size, counts);
+	if (n <= 1)
+		return ;
+	heap_utils(a, n);
+	info.count = n;
+	info.k = chunk_count(n);
+	chunk_sort(a, b, &info, counts);
 }
 
-void	process_chunk(t_stack **a, t_stack **b, t_info *c_info, int size,
-		int *counts)
+void	chunk_sort(t_stack **a, t_stack **b, t_info *info, int *counts)
 {
-	int	pos;
+	t_a_state	st;
+	int			chunk;
+	int			base;
+	int			extra_chunks;
 
-	while (c_info->count != 0)
+	st.a = a;
+	st.size = info->count;
+	st.tail = find_tail(*a);
+	base = info->count / info->k;
+	extra_chunks = info->count % info->k;
+	info->low = 0;
+	chunk = 0;
+	while (chunk < info->k)
 	{
-		pos = find_chunk_pos(*a, c_info, size);
-		if (pos >= 0)
-		{
-			while (pos--)
-				ra(a, counts);
-		}
-		else
-		{
-			while (pos++)
-				rra(a, counts);
-		}
-		pb(a, b, counts);
-		size--;
-		c_info->count--;
-		if (c_info->count == 0)
-		{
-			next_chunk(c_info, b, a, counts);
-			size = ft_stack_size(*a);
-		}
+		info->ch_size = base + (chunk < extra_chunks);
+		info->up = info->low + info->ch_size;
+		process_chunk(&st, b, info, counts);
+		info->low = info->up;
+		chunk++;
 	}
-}
-
-int	find_chunk_pos(t_stack *a, t_info *c_info, int size)
-{
-	t_stack	*temp;
-	int		pos;
-
-	temp = a;
-	pos = 0;
-	while (temp)
-	{
-		if (temp->index >= c_info->up
-			&& temp->index <= c_info->low)
-			break ;
-		pos++;
-		temp = temp->next;
-	}
-	if (pos <= size / 2)
-		return (pos);
-	return (pos - size);
-}
-
-void	next_chunk(t_info *c_info, t_stack **b, t_stack **a, int *counts)
-{
-	c_info->up -= c_info->k;
-	c_info->low -= c_info->k;
-	c_info->count = c_info->k;
-
-	intermittent_bsort(b, a, c_info, counts);
-	if (c_info->up < 0)
-	{
-		c_info->up = 0;
-		c_info->k = c_info->low + 1;
-		c_info->count = c_info->k;
-	}
-}
-
-void	intermittent_bsort(t_stack **b, t_stack **a, t_info *c_info,
-		int *counts)
-{
-	t_stack	*temp;
-	t_stack	*big;
-	int		i;
-	int		big_pos;
-
 	while (*b)
+		pa(b, a, counts);
+}
+
+void	process_chunk(t_a_state *st, t_stack **b, t_info *info, int *counts)
+{
+	int	remaining;
+
+	remaining = info->ch_size;
+	info->pos = 0;
+	while (remaining > 0)
 	{
-		temp = *b;
-		big = *b;
-		big_pos = 0;
-		i = 0;
-		while (i < c_info->k && temp->next)
-		{
-			if (big->index < temp->next->index)
-			{
-				big = temp->next;
-				big_pos = i + 1;
-			}
-			temp = temp->next;
-			i++;
-		}
-		sort_to_a(big_pos, i + 1, b, a, counts);
+		move_one(st, b, info, counts);
+		info->pos++;
+		remaining--;
 	}
 }
 
-void	sort_to_a(int pos, int size, t_stack **b, t_stack **a, int *counts)
+void	move_one(t_a_state *st, t_stack **b, t_info *info, int *counts)
 {
-	if (pos >= size / 2)
+	t_target	tgt;
+	int			depth;
+	int			cost_a;
+	int			reverse_b;
+	t_move_ctx	ctx;
+
+	if (!compute_dist(st, info, &tgt))
+		return ;
+	cost_a = tgt.pos;
+	if (st->size - tgt.pos < cost_a)
+		cost_a = st->size - tgt.pos;
+	depth = insertion_depth(*b, info->pos, tgt.index);
+	reverse_b = depth;
+	ctx.forward = (cost_a == tgt.pos);
+	ctx.cost_a = &cost_a;
+	ctx.depth = &depth;
+	rotate_extraction(st, b, &ctx, counts);
+	while (depth-- > 0)
+		rb(b, counts);
+	pb(st->a, b, counts);
+	st->size--;
+	while (reverse_b-- > 0)
+		rrb(b, counts);
+}
+
+int	compute_dist(t_a_state *st, t_info *info, t_target *tgt)
+{
+	t_stack	*front;
+	t_stack	*back;
+	int		pos_f;
+	int		pos_b;
+
+	pos_b = 0;
+	front = scan_front(*st->a, info, &pos_f);
+	if (!front)
+		return (0);
+	back = scan_back(st->tail, info, &pos_b);
+	if (pos_b < pos_f)
 	{
-		pos = size - pos;
-		while (pos--)
-			rrb(b, counts);
+		tgt->pos = st->size - pos_b;
+		tgt->index = back->index;
 	}
 	else
 	{
-		while (pos--)
-			rb(b, counts);
+		tgt->pos = pos_f;
+		tgt->index = front->index;
 	}
-	pa(b, a, counts);
+	return (1);
 }
