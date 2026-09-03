@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   medium.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: merged <merged@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sradhakr <sradhakr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/28 00:00:00 by merged            #+#    #+#             */
 /*   Updated: 2026/08/28 00:00:00 by merged           ###   ########.fr       */
@@ -61,29 +61,27 @@ void	process_chunk(t_a_state *st, t_stack **b, t_info *info, int *counts)
 		move_one(st, b, info, counts);
 		info->pos++;
 		remaining--;
+
 	}
 }
 
 void	move_one(t_a_state *st, t_stack **b, t_info *info, int *counts)
 {
-	t_target	tgt;
-	int			depth;
-	int			cost_a;
-	int			reverse_b;
-	t_move_ctx	ctx;
+	int		move_pos;
+	int		index;
+	int		reverse_b;
+	t_rot	r;
 
-	if (!compute_dist(st, info, &tgt))
+	if (!compute_dist(st, info, &move_pos, &index))
 		return ;
-	cost_a = tgt.pos;
-	if (st->size - tgt.pos < cost_a)
-		cost_a = st->size - tgt.pos;
-	depth = insertion_depth(*b, info->pos, tgt.index);
-	reverse_b = depth;
-	ctx.forward = (cost_a == tgt.pos);
-	ctx.cost_a = &cost_a;
-	ctx.depth = &depth;
-	rotate_extraction(st, b, &ctx, counts);
-	while (depth-- > 0)
+	r.cost_a = move_pos;
+	if (st->size - move_pos < r.cost_a)
+		r.cost_a = st->size - move_pos;
+	r.depth = insertion_depth(*b, info->pos, index);
+	reverse_b = r.depth;
+	r.forward = (r.cost_a == move_pos);
+	rotate_extraction(st, b, &r, counts);
+	while (r.depth-- > 0)
 		rb(b, counts);
 	pb(st->a, b, counts);
 	st->size--;
@@ -91,7 +89,7 @@ void	move_one(t_a_state *st, t_stack **b, t_info *info, int *counts)
 		rrb(b, counts);
 }
 
-int	compute_dist(t_a_state *st, t_info *info, t_target *tgt)
+int	compute_dist(t_a_state *st, t_info *info, int *res_pos, int *res_index)
 {
 	t_stack	*front;
 	t_stack	*back;
@@ -105,13 +103,13 @@ int	compute_dist(t_a_state *st, t_info *info, t_target *tgt)
 	back = scan_back(st->tail, info, &pos_b);
 	if (pos_b < pos_f)
 	{
-		tgt->pos = st->size - pos_b;
-		tgt->index = back->index;
+		*res_pos = st->size - pos_b;
+		*res_index = back->index;
 	}
 	else
 	{
-		tgt->pos = pos_f;
-		tgt->index = front->index;
+		*res_pos = pos_f;
+		*res_index = front->index;
 	}
 	return (1);
 }

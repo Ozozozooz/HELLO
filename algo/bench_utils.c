@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   bench_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: merged <merged@student.42.fr>              +#+  +:+       +#+        */
+/*   By: booz <booz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/28 00:00:00 by merged            #+#    #+#             */
 /*   Updated: 2026/08/28 00:00:00 by merged           ###   ########.fr       */
@@ -14,6 +14,8 @@
 
 char	*path_name(int path)
 {
+	if (path == 7)
+		return ("Small");
 	if (path <= 3)
 		return ("Adaptive");
 	if (path == 4)
@@ -25,6 +27,8 @@ char	*path_name(int path)
 
 char	*path_class(int path)
 {
+	if (path == 7)
+		return ("O(1)");
 	if (path == 1 || path == 4)
 		return ("O(n\xc2\xb2)");
 	if (path == 2 || path == 5)

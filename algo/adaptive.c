@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   adaptive.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: merged <merged@student.42.fr>              +#+  +:+       +#+        */
+/*   By: booz <booz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/28 00:00:00 by merged            #+#    #+#             */
 /*   Updated: 2026/08/28 00:00:00 by merged           ###   ########.fr       */
@@ -20,6 +20,11 @@ void	ft_adaptive(t_stack **stack_a, t_stack **stack_b, int size,
 	double	dis;
 
 	dis = ft_disorder(*stack_a, size);
+	if (dis == 0.0)
+	{
+		counts[11] = 1;
+		return ;
+	}
 	if (dis < 0.2)
 	{
 		counts[11] = 1;

@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: merged <merged@student.42.fr>              +#+  +:+       +#+        */
+/*   By: booz <booz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/28 00:00:00 by merged            #+#    #+#             */
 /*   Updated: 2026/08/28 00:00:00 by merged           ###   ########.fr       */
@@ -48,12 +48,12 @@ typedef struct s_a_state
 	t_stack			*tail;
 }	t_a_state;
 
-typedef struct s_move_ctx
+typedef struct s_rot
 {
+	int				cost_a;
+	int				depth;
 	int				forward;
-	int				*cost_a;
-	int				*depth;
-}	t_move_ctx;
+}	t_rot;
 
 typedef struct s_stacks
 {
@@ -65,15 +65,9 @@ typedef struct s_partition
 {
 	int				pivot;
 	int				size;
-	int				*smaller;
-	int				*bigger;
+	int				smaller;
+	int				bigger;
 }	t_partition;
-
-typedef struct s_target
-{
-	int				pos;
-	int				index;
-}	t_target;
 
 typedef enum e_op
 {
@@ -122,6 +116,8 @@ int		ft_stack_size(t_stack *ab);
 int		find_min_pos(t_stack *a);
 void	ft_simple_algo(t_stack **a, t_stack **b, int *counts);
 void	simple_sort_to_b(int pos, int size, t_stacks *st, int *counts);
+void	sort_three(t_stack **a, int *counts);
+void	ft_small_algo(t_stack **a, t_stack **b, int size, int *counts);
 
 void	quick_sort_a(t_stack **a, t_stack **b, int size, int *counts);
 void	quick_sort_b(t_stack **a, t_stack **b, int size, int *counts);
@@ -145,12 +141,12 @@ void	medium_algo(t_stack **a, t_stack **b, int n, int *counts);
 void	chunk_sort(t_stack **a, t_stack **b, t_info *info, int *counts);
 void	process_chunk(t_a_state *st, t_stack **b, t_info *info, int *counts);
 void	move_one(t_a_state *st, t_stack **b, t_info *info, int *counts);
-int		compute_dist(t_a_state *st, t_info *info, t_target *tgt);
+int		compute_dist(t_a_state *st, t_info *info, int *res_pos, int *res_index);
 t_stack	*scan_front(t_stack *head, t_info *info, int *pos_f);
 t_stack	*scan_back(t_stack *tail, t_info *info, int *pos_b);
 int		insertion_depth(t_stack *b, int placed, int index);
-void	rotate_extraction(t_a_state *st, t_stack **b, t_move_ctx *ctx, int *c);
-void	merge_forward(t_a_state *st, t_stack **b, t_move_ctx *ctx, int *c);
+void	rotate_extraction(t_a_state *st, t_stack **b, t_rot *r, int *counts);
+void	merge_forward(t_a_state *st, t_stack **b, t_rot *r, int *counts);
 int		chunk_count(int n);
 t_stack	*find_tail(t_stack *a);
 

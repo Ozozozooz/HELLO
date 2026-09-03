@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: merged <merged@student.42.fr>              +#+  +:+       +#+        */
+/*   By: booz <booz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/28 00:00:00 by merged            #+#    #+#             */
 /*   Updated: 2026/08/28 00:00:00 by merged           ###   ########.fr       */
@@ -26,5 +26,7 @@ int	main(int argc, char **argv)
 	st.a = &stack_a;
 	st.b = &stack_b;
 	execute_strategy(argc, argv, &st, size);
+	free_stack(&stack_a);
+	free_stack(&stack_b);
 	return (0);
 }

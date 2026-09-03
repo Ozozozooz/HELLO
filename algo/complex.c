@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   complex.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: merged <merged@student.42.fr>              +#+  +:+       +#+        */
+/*   By: booz <booz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/28 00:00:00 by merged            #+#    #+#             */
 /*   Updated: 2026/08/28 00:00:00 by merged           ###   ########.fr       */
@@ -14,8 +14,7 @@
 
 void	quick_sort_a(t_stack **a, t_stack **b, int size, int *counts)
 {
-	int	smaller;
-	int	bigger;
+	t_partition	p;
 
 	if (size <= 1)
 		return ;
@@ -25,18 +24,18 @@ void	quick_sort_a(t_stack **a, t_stack **b, int size, int *counts)
 			sa(a, counts);
 		return ;
 	}
-	smaller = 0;
-	bigger = 0;
-	loop_a(&(t_stacks){a, b},
-		&(t_partition){get_pivot(*a, size), size, &smaller, &bigger}, counts);
-	quick_sort_a(a, b, bigger, counts);
-	quick_sort_b(a, b, smaller, counts);
+	p.pivot = get_pivot(*a, size);
+	p.size = size;
+	p.smaller = 0;
+	p.bigger = 0;
+	loop_a(&(t_stacks){a, b}, &p, counts);
+	quick_sort_a(a, b, p.bigger, counts);
+	quick_sort_b(a, b, p.smaller, counts);
 }
 
 void	quick_sort_b(t_stack **a, t_stack **b, int size, int *counts)
 {
-	int	smaller;
-	int	bigger;
+	t_partition	p;
 
 	if (size == 0)
 		return ;
@@ -53,10 +52,11 @@ void	quick_sort_b(t_stack **a, t_stack **b, int size, int *counts)
 		pa(b, a, counts);
 		return ;
 	}
-	loop_b(&(t_stacks){a, b},
-		&(t_partition){get_pivot(*b, size), size, &smaller, &bigger}, counts);
-	quick_sort_a(a, b, bigger, counts);
-	quick_sort_b(a, b, smaller, counts);
+	p.pivot = get_pivot(*b, size);
+	p.size = size;
+	loop_b(&(t_stacks){a, b}, &p, counts);
+	quick_sort_a(a, b, p.bigger, counts);
+	quick_sort_b(a, b, p.smaller, counts);
 }
 
 int	get_pivot(t_stack *a, int size)

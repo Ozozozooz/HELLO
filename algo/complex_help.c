@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   complex_help.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: merged <merged@student.42.fr>              +#+  +:+       +#+        */
+/*   By: booz <booz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/28 00:00:00 by merged            #+#    #+#             */
 /*   Updated: 2026/08/28 00:00:00 by merged           ###   ########.fr       */
@@ -23,15 +23,15 @@ void	loop_a(t_stacks *st, t_partition *p, int *counts)
 		if ((*st->a)->value < p->pivot)
 		{
 			pb(st->a, st->b, counts);
-			(*p->smaller)++;
+			p->smaller++;
 		}
 		else
 		{
 			ra(st->a, counts);
-			(*p->bigger)++;
+			p->bigger++;
 		}
 	}
-	i = *p->bigger;
+	i = p->bigger;
 	while (i--)
 		rra(st->a, counts);
 }
@@ -40,23 +40,23 @@ void	loop_b(t_stacks *st, t_partition *p, int *counts)
 {
 	int	i;
 
-	*p->smaller = 0;
-	*p->bigger = 0;
+	p->smaller = 0;
+	p->bigger = 0;
 	i = p->size;
 	while (i--)
 	{
 		if ((*st->b)->value > p->pivot)
 		{
 			pa(st->b, st->a, counts);
-			(*p->bigger)++;
+			p->bigger++;
 		}
 		else
 		{
 			rb(st->b, counts);
-			(*p->smaller)++;
+			p->smaller++;
 		}
 	}
-	i = *p->smaller;
+	i = p->smaller;
 	while (i--)
 		rrb(st->b, counts);
 }

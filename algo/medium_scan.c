@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   medium_scan.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: merged <merged@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sradhakr <sradhakr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/28 00:00:00 by merged            #+#    #+#             */
 /*   Updated: 2026/08/28 00:00:00 by merged           ###   ########.fr       */
@@ -65,36 +65,33 @@ int	insertion_depth(t_stack *b, int placed, int index)
 	return (d);
 }
 
-void	rotate_extraction(t_a_state *st, t_stack **b, t_move_ctx *ctx,
-			int *counts)
+void	rotate_extraction(t_a_state *st, t_stack **b, t_rot *r, int *counts)
 {
-	if (ctx->forward)
-		merge_forward(st, b, ctx, counts);
+	if (r->forward)
+		merge_forward(st, b, r, counts);
 	else
-	{
-		while ((*ctx->cost_a)-- > 0)
+		while ((r->cost_a)-- > 0)
 		{
 			st->tail = st->tail->prev;
 			rra(st->a, counts);
 		}
-	}
 }
 
-void	merge_forward(t_a_state *st, t_stack **b, t_move_ctx *ctx, int *counts)
+void	merge_forward(t_a_state *st, t_stack **b, t_rot *r, int *counts)
 {
 	int	merged;
 
-	merged = *ctx->cost_a;
-	if (*ctx->depth < merged)
-		merged = *ctx->depth;
-	*ctx->cost_a -= merged;
-	*ctx->depth -= merged;
+	merged = r->cost_a;
+	if (r->depth < merged)
+		merged = r->depth;
+	r->cost_a -= merged;
+	r->depth -= merged;
 	while (merged-- > 0)
 	{
 		st->tail = *st->a;
 		rr(st->a, b, counts);
 	}
-	while ((*ctx->cost_a)-- > 0)
+	while ((r->cost_a)-- > 0)
 	{
 		st->tail = *st->a;
 		ra(st->a, counts);

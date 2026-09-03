@@ -14,6 +14,7 @@ SRC = trial/main.c \
       parsing/parsing.c \
       parsing/stack_utils.c \
       algo/simple.c \
+      algo/small.c \
       algo/complex.c\
 	  algo/heap.c\
 	  algo/adaptive.c\

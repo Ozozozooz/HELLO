@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   selector.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: merged <merged@student.42.fr>              +#+  +:+       +#+        */
+/*   By: booz <booz@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/28 00:00:00 by merged            #+#    #+#             */
 /*   Updated: 2026/08/28 00:00:00 by merged           ###   ########.fr       */
@@ -14,6 +14,12 @@
 
 static void	run_selected(char *algo, t_stacks *st, int size, int *counts)
 {
+	if (size <= 5)
+	{
+		counts[11] = 7;
+		ft_small_algo(st->a, st->b, size, counts);
+		return ;
+	}
 	if (algo && strcmp(algo, "--simple") == 0)
 	{
 		counts[11] = 4;
